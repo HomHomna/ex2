@@ -201,7 +201,6 @@ export default function TableData() {
       setCount(count + 1);
       setRows(rows + 1)
     }
-
   };
 
   const handleSave = (row) => {
@@ -240,7 +239,8 @@ export default function TableData() {
       <Table
         components={components}
         rowClassName={() => 'editable-row'}
-        bordered
+        bordered={false}
+        
         dataSource={dataSource}
         columns={columns}
         pagination={{ defaultPageSize: 10, hideOnSinglePage: true }}
@@ -250,7 +250,8 @@ export default function TableData() {
         type="primary"
         style={{
           marginBottom: 16,
-        }}
+        }} 
+        disabled = {rows === 6? true : false}
       >
         <PlusOutlined /> Bank Account
       </Button>
