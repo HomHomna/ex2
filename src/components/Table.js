@@ -181,7 +181,7 @@ export default function TableData() {
         >
           <PlusOutlined /> Bank Account
         </Button>
-        <div className="flex ml-6">
+        <div className="flex ml-6 text-gray-600">
           <div>Maximum</div>
           <span className="font-bold">5 Account</span>
           <div>/ User</div>
