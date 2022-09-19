@@ -1,11 +1,12 @@
-import { Button, Form, Input, Popconfirm, Table, Radio, Select } from 'antd';
+import { Button, Form, Popconfirm, Table, Radio, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { PatternFormat } from 'react-number-format';
 
 const { Option } = Select;
 
 const EditableContext = React.createContext(null);
+const logo = [require('../asset/blank.png'), require('../asset/kbank.png'), require('../asset/kth.png')]
 
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
@@ -16,75 +17,6 @@ const EditableRow = ({ index, ...props }) => {
       </EditableContext.Provider>
     </Form>
   );
-};
-
-const EditableCell = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef(null);
-  const form = useContext(EditableContext);
-  useEffect(() => {
-    if (editing) {
-      inputRef.current.focus();
-    }
-  }, [editing]);
-
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({
-      [dataIndex]: record[dataIndex],
-    });
-  };
-
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log('Save failed:', errInfo);
-    }
-  };
-
-  let childNode = children;
-
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{
-          margin: 0,
-        }}
-        name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
-      >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-      </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 24,
-        }}
-        onClick={toggleEdit}
-      >
-        {children}
-      </div>
-    );
-  }
-
-  return <td {...restProps}>{childNode}</td>;
 };
 
 export default function TableData() {
@@ -115,7 +47,7 @@ export default function TableData() {
           width: 180,
         }}
         onChange={handleChange}
-        value = {"Bank Name #1"}
+        value={"Bank Name #1"}
       >
         <Option value="Kasikorn Bank">Kasikorn Bank</Option>
         <Option value="Krungthai Bank">Krungthai Bank</Option>
@@ -132,7 +64,7 @@ export default function TableData() {
           width: 180,
         }}
         onChange={handleChange}
-        value = {"Bank Name #2"}
+        value={"Bank Name #2"}
       >
         <Option value="Kasikorn Bank">Kasikorn Bank</Option>
         <Option value="Krungthai Bank">Krungthai Bank</Option>
@@ -171,7 +103,7 @@ export default function TableData() {
       render: (_, record) =>
         dataSource.length >= 1 ? (
           <Popconfirm title="Delete Account" onConfirm={() => handleDelete(record.key)}>
-            <a><MinusCircleOutlined /></a>
+            <a><MinusCircleOutlined className="w-8 " /></a>
           </Popconfirm>
         ) : null,
     },
@@ -189,7 +121,7 @@ export default function TableData() {
             width: 180,
           }}
           onChange={handleChange}
-          value = {Bank}
+          value={Bank}
         >
           <Option value="Kasikorn Bank">Kasikorn Bank</Option>
           <Option value="Krungthai Bank">Krungthai Bank</Option>
@@ -197,24 +129,16 @@ export default function TableData() {
         bankAccountNo: <PatternFormat value="" valueIsNumericString format="####-#-#####-#" mask="_" placeholder="___-_-_____-_" />
       };
       setDataSource([...dataSource, newData]);
-      setBank(`Bank Name #${count+1}`)
+      setBank(`Bank Name #${count + 1}`)
       setCount(count + 1);
       setRows(rows + 1)
     }
   };
 
-  const handleSave = (row) => {
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, { ...item, ...row });
-    setDataSource(newData);
-  };
 
   const components = {
     body: {
       row: EditableRow,
-      cell: EditableCell,
     },
   };
   const columns = defaultColumns.map((col) => {
@@ -229,7 +153,6 @@ export default function TableData() {
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSave,
       }),
     };
   });
@@ -240,25 +163,29 @@ export default function TableData() {
         components={components}
         rowClassName={() => 'editable-row'}
         bordered={false}
-        
+
         dataSource={dataSource}
         columns={columns}
         pagination={{ defaultPageSize: 10, hideOnSinglePage: true }}
+        className="w-1/2"
       />
-      <Button
-        onClick={handleAdd}
-        type="primary"
-        style={{
-          marginBottom: 16,
-        }} 
-        disabled = {rows === 6? true : false}
-      >
-        <PlusOutlined /> Bank Account
-      </Button>
-      <div>
-        <div>Maximum</div>
-        <span>5 Account</span>
-        <div>/ User</div>
+      <div className="flex items-baseline	mt-7">
+        <Button
+          onClick={handleAdd}
+          type="primary"
+          style={{
+            marginBottom: 16,
+            borderRadius: 6,
+          }}
+          disabled={rows === 6 ? true : false}
+        >
+          <PlusOutlined /> Bank Account
+        </Button>
+        <div className="flex ml-6">
+          <div>Maximum</div>
+          <span className="font-bold">5 Account</span>
+          <div>/ User</div>
+        </div>
       </div>
     </div>
   );

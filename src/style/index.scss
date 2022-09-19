@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: 'Prompt', sans-serif;
+}
+
 .editable-cell {
   position: relative;
 }
