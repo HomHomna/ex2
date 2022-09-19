@@ -1,4 +1,5 @@
 import { Button, Form, Input, Popconfirm, Table, Radio, Select } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { PatternFormat } from 'react-number-format';
 
@@ -170,7 +171,7 @@ export default function TableData() {
       render: (_, record) =>
         dataSource.length >= 1 ? (
           <Popconfirm title="Delete Account" onConfirm={() => handleDelete(record.key)}>
-            <a>Delete</a>
+            <a><MinusCircleOutlined /></a>
           </Popconfirm>
         ) : null,
     },
@@ -251,7 +252,7 @@ export default function TableData() {
           marginBottom: 16,
         }}
       >
-        Add a row
+        <PlusOutlined /> Bank Account
       </Button>
       <div>
         <div>Maximum</div>
