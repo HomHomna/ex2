@@ -1,4 +1,4 @@
-import { Button, Form, Popconfirm, Table, Radio, Select } from 'antd';
+import { Button, Form, Popconfirm, Table, Radio, Select, Image } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { PatternFormat } from 'react-number-format';
@@ -21,7 +21,7 @@ const EditableRow = ({ index, ...props }) => {
 
 export default function TableData() {
   const [count, setCount] = useState(3);
-  const [Bank, setBank] = useState(`Bank Name #${count}`);
+  const [Bank, setBank] = useState("");
   const [valueRadio, setValueRadio] = useState(1);
   const [rows, setRows] = useState(3)
 
@@ -47,10 +47,11 @@ export default function TableData() {
           width: 180,
         }}
         onChange={handleChange}
-        value={"Bank Name #1"}
-      >
-        <Option value="Kasikorn Bank">Kasikorn Bank</Option>
-        <Option value="Krungthai Bank">Krungthai Bank</Option>
+        defaultValue="Bank Name #1"
+        >
+        <Option value="Kasikorn Bank"><Image width={30} src ={logo[1]} preview={false}/>Kasikorn Bank</Option>
+        <Option value="Krungthai Bank"><Image width={30} src ={logo[2]} preview={false}/>Krungthai Bank</Option>
+        
       </Select>,
       bankAccountNo: <PatternFormat value="" valueIsNumericString format="####-#-#####-#" mask="_" placeholder="___-_-_____-_" />
     },
@@ -59,16 +60,16 @@ export default function TableData() {
       Default: <Radio.Group onChange={onChangeRadio} value={valueRadio}>
         <Radio value={2}></Radio>
       </Radio.Group>,
-      bankName: <Select
+      bankName: <Image.PreviewGroup><Select
         style={{
           width: 180,
         }}
         onChange={handleChange}
-        value={"Bank Name #2"}
+        defaultValue="Bank Name #2"
       >
-        <Option value="Kasikorn Bank">Kasikorn Bank</Option>
-        <Option value="Krungthai Bank">Krungthai Bank</Option>
-      </Select>,
+        <Option value="Kasikorn Bank"><Image width={30} src ={logo[1]} preview={false}/>Kasikorn Bank</Option>
+        <Option value="Krungthai Bank"><Image width={30} src ={logo[2]} preview={false}/>Krungthai Bank</Option>
+      </Select></Image.PreviewGroup>,
       bankAccountNo: <PatternFormat value="" valueIsNumericString format="####-#-#####-#" mask="_" placeholder="___-_-_____-_" />
     },
   ]);
@@ -121,15 +122,15 @@ export default function TableData() {
             width: 180,
           }}
           onChange={handleChange}
-          value={Bank}
+          defaultValue={logo[0] +"Bank Name #"+ count}
         >
-          <Option value="Kasikorn Bank">Kasikorn Bank</Option>
+          <Option value="Kasikorn Bank"> Kasikorn Bank</Option>
           <Option value="Krungthai Bank">Krungthai Bank</Option>
         </Select>,
         bankAccountNo: <PatternFormat value="" valueIsNumericString format="####-#-#####-#" mask="_" placeholder="___-_-_____-_" />
       };
       setDataSource([...dataSource, newData]);
-      setBank(`Bank Name #${count + 1}`)
+      
       setCount(count + 1);
       setRows(rows + 1)
     }
